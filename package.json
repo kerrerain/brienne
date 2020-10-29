@@ -1,6 +1,7 @@
 {
   "name": "brienne",
   "author": "onepoint",
+  "version": "0.0.1",
   "license": "MIT",
   "dependencies": {
     "@elastic/elasticsearch": "^7.9.1",

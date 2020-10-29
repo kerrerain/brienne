@@ -8,15 +8,34 @@ async function _checkA11Y(page, checklist) {
     checklist.check("A11Y_5");
   }
 
-  if (await tests.pageHasTerm(page, "W3C")) {
+  if (await tests.pageHasTerm(page, "WCAG")) {
     checklist.check("A11Y_6");
   }
 
+  // If this test doesn't pass, it's useless to run the next tests.
   if (!await tests.pageHasTerm(page, "accessibilite")) {
     return;
   }
 
   checklist.check("A11Y_1");
+
+  const clickableA11YElements = await tests.pageClickableElements(page, "accessibilite");
+
+  if (clickableA11YElements.length > 0) {
+    checklist.check("A11Y_2");
+  }
+
+  for (element of clickableA11YElements) {
+    console.log(element.url);
+
+    const response = await page.goto(element.url);
+
+    if (response.status() == 200) {
+      checklist.check("A11Y_3", {
+        "current-url": element.url
+      });
+    }
+  };
 }
 
 async function _processWebsite(website) {

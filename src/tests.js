@@ -1,15 +1,3 @@
-/**
- * Searches a term on a page.
- * 
- * @param {object} page The puppeteer page.
- * @param {string} term The term to search for.
- */
-async function pageHasTerm(page, term) {
-  const content = (await page.content()).replace(/é/g, "e"); // We only need to remove "é".
-  const found = content.match(new RegExp(`\\b(${term})\\b`, "gmi"));
-  return found != null && found.length > 0;
-}
-
 const TEST_VALID = "C";
 const TEST_INVALID = "NC";
 
@@ -111,7 +99,42 @@ class Checklist {
 
 }
 
+/**
+ * Searches a term on a page.
+ * 
+ * @param {object} page The puppeteer page.
+ * @param {string} term The term to search for.
+ */
+async function pageHasTerm(page, term) {
+  const content = (await page.content()).replace(/é/g, "e"); // We only need to remove "é".
+  const found = content.match(new RegExp(`\\b(${term})\\b`, "gmi"));
+  return found != null && found.length > 0;
+}
+
+/**
+ * Searches for clickable elements with this term on a page.
+ * If no element has been found, returns an empty array.
+ * 
+ * @param {object} page The puppeteer page.
+ * @param {string} term The term to search for.
+ */
+async function pageClickableElements(page, term) {
+  const regex = new RegExp(`\\b(${term})\\b`, "gmi");
+  const elements = await page.$$eval("a", nodes => nodes.map(n => {
+    return {
+      url: n.href,
+      text: n.innerText
+    }
+  }));
+
+  return elements.filter(n => {
+    const found = n.text.replace(/é/g, "e").match(regex);
+    return found != null && found.length > 0;
+  });
+}
+
 module.exports = {
   Checklist,
-  pageHasTerm
+  pageHasTerm,
+  pageClickableElements
 };
