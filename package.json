@@ -1,0 +1,9 @@
+{
+  "name": "brienne",
+  "author": "onepoint",
+  "license": "MIT",
+  "dependencies": {
+    "@elastic/elasticsearch": "^7.9.1",
+    "puppeteer": "^5.4.1"
+  }
+}

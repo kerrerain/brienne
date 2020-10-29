@@ -1,0 +1,24 @@
+[
+  {
+    "id": "bf3f02db3e5f66dfcea8f57e94c091610cc6d944",
+    "name": "pole_emploi_abbeville",
+    "title": "Pôle emploi - Abbeville",
+    "url": "https://lannuaire.service-public.fr/hauts-de-france/somme/pole_emploi-80001-01",
+    "metadata": {
+      "email": "",
+      "telephone": "3949",
+      "url": "https://www.pole-emploi.fr"
+    }
+  },
+  {
+    "id": "a2dcdad590db230939e42e9f160c5cdd910d5076",
+    "name": "pole_emploi_abymes",
+    "title": "Pôle emploi - Abymes",
+    "url": "https://lannuaire.service-public.fr/guadeloupe/guadeloupe/pole_emploi-97101-01",
+    "metadata": {
+      "email": "",
+      "telephone": "3949",
+      "url": "https://www.pole-emploi.fr"
+    }
+  }
+]
