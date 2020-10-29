@@ -1,6 +1,23 @@
 const puppeteer = require("puppeteer");
 const input = require("./input");
-const output = require("./output");
+const tests = require("./tests");
+const output = require("./outputs/elastic");
+
+async function _checkA11Y(page, checklist) {
+  if (await tests.pageHasTerm(page, "W3C")) {
+    checklist.check("A11Y_5");
+  }
+
+  if (await tests.pageHasTerm(page, "W3C")) {
+    checklist.check("A11Y_6");
+  }
+
+  if (!await tests.pageHasTerm(page, "accessibilite")) {
+    return;
+  }
+
+  checklist.check("A11Y_1");
+}
 
 async function _processWebsite(website) {
   console.log("Processing website: ", website.url);
@@ -9,22 +26,11 @@ async function _processWebsite(website) {
   const page = await browser.newPage();
   await page.goto(website.url);
 
-  const content = (await page.content()).replace(/é/g, "e"); // We only need to remove "é".
-  const found = content.match(/\b(accessibilite)\b/gmi);
+  const checklist = new tests.Checklist(website.url);
 
-  output.publish({
-    "base-url": website.url,
-    "current-url": website.url,
-    "item": {
-      "id": "1",
-      "title": "The page mentions the 'Accessibilité' word."
-    },
-    "result": found && found.length > 0 ? "OK" : "KO",
-    "status": "success",
-    "metadata": {},
-    "topic": "",
-    "organization": ""
-  });
+  await _checkA11Y(page, checklist);
+
+  output.publish(checklist.toArray());
 
   await browser.close();
 }

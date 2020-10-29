@@ -6,11 +6,9 @@ const BRIENNE_ES_INDEX_NAME = process.env.BRIENNE_ES_INDEX_NAME || "brienne";
 
 const client = new Client({ node: BRIENNE_ES_URL });
 
-function publish(body) {
+function publish(tests) {
     client.helpers.bulk({
-        datasource: [
-            body
-        ],
+        datasource: tests,
         onDocument: (document) => {
             return {
                 index: { _index: BRIENNE_ES_INDEX_NAME }
