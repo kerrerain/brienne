@@ -4,6 +4,11 @@ A scraper to check criteria about the accessibility of websites.
 
 ## Install
 
+Prerequisites:
+
+- node.js 12+
+- yarn 1.22+
+
 ```
 yarn set version berry
 yarn install
@@ -13,6 +18,12 @@ yarn install
 
 ```
 yarn node ./src
+```
+
+To output the results to the console instead of ElasticSearch (for testing purpose, for example), use the BRIENNE_OUTPUT environment variable:
+
+```
+BRIENNE_OUTPUT=console yarn node ./src
 ```
 
 ## Environment
