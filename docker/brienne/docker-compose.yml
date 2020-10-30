@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  brienne:
+    image: datarmination/brienne
+    cap_add:
+      - SYS_ADMIN
+    volumes:
+      - type: bind
+        source: "/absolute/path/.../brienne/docker/brienne/websites"
+        target: "/etc/brienne"
+    environment:
+      BRIENNE_OUTPUT: elastic
+      BRIENNE_INPUT_FILE: /etc/brienne/websites.json

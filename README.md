@@ -19,7 +19,7 @@ yarn node ./src
 
 | Name                  | Default                               | Description                                                                                           |
 |-----------------------|---------------------------------------|-------------------------------------------------------------------------------------------------------|
-| BRIENNE_INPUT_FILE    | example/default.json                  | The file to process. It's a JSON array file listing the website to analyze.                           |
+| BRIENNE_INPUT_FILE    | example/default.json                  | The file to process. It's a JSON array file listing the websites to analyze.                          |
 | BRIENNE_OUTPUT        | elastic                               | The output where the results are published. Can be one of "elastic" or "console".                     |
 | BRIENNE_ES_URL        | http://elastic:elastic@localhost:9200 | The URL of the ElasticSearch instance. By default, authenticate with the elastic/elastic credentials. |
 | BRIENNE_ES_INDEX_NAME | brienne                               | The name of the index used to publish the results.                                                    |
@@ -35,14 +35,16 @@ docker build -t datarmination/brienne .
 Run ElasticSearch & Kibana:
 
 ```
-cd elasticsearch
-docker-compose up -d
+cd docker/elasticsearch
+docker-compose up
 ```
 
-Create a Docker container:
+Use the docker/brienne project to create and run a container easily. First, modify docker-compose.yml: the "source" property of the volume should be the absolute path of the folder containing "websites.json". Then, run:
 
 ```
-docker run --rm -it --cap-add=SYS_ADMIN -e BRIENNE_ES_URL=http://elastic:elastic@elasticsearch:9200 --network=brienne datarmination/brienne
+cd docker/brienne
+docker-compose up
 ```
+
 
 Check that the index "brienne" has been created with some documents on [Kibana](http://localhost:5601/).
