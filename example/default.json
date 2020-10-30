@@ -9,5 +9,16 @@
       "telephone": "3949",
       "url": "https://www.pole-emploi.fr"
     }
+  },
+  {
+    "id": "bf3f02db3e5f66dfcea8f57e94c091610cc6d944",
+    "name": "pole_emploi_abbeville",
+    "title": "Pôle emploi - Abbeville",
+    "url": "https://lannuaire.service-public.fr/hauts-de-france/somme/pole_emploi-80001-01",
+    "metadata": {
+      "email": "",
+      "telephone": "3949",
+      "url": "https://www.pole-emploi.fr"
+    }
   }
 ]
