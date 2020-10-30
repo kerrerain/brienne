@@ -1,7 +1,10 @@
+const process = require("process");
 const puppeteer = require("puppeteer");
 const input = require("./input");
 const tests = require("./tests");
-const output = require("./outputs/elastic");
+
+const BRIENNE_OUTPUT = process.env.BRIENNE_OUTPUT || "elastic";
+const output = require(`./outputs/${BRIENNE_OUTPUT}`);
 
 async function _checkA11Y(page, checklist) {
   if (await tests.pageHasTerm(page, "W3C")) {
