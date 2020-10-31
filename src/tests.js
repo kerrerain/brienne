@@ -71,6 +71,7 @@ const TESTS = [
 
 function of(results) {
   const testsMap = {};
+  const now = new Date().toISOString();
 
   TESTS.forEach(n => {
     testsMap[n.code] = {
@@ -79,6 +80,7 @@ function of(results) {
       test: n,
       result: TEST_INVALID, // Until it has been checked, it's considered invalid.
       status: "success",
+      date: now,
       metadata: {}
     };
   });
@@ -90,12 +92,12 @@ function of(results) {
   if (results.hasClickableA11Y) {
     testsMap["A11Y_2"].result = TEST_VALID;
 
-    if(results.subpages.length > 0 && results.subpages[0].reachable) {
+    if (results.subpages.length > 0 && results.subpages[0].reachable) {
       const subpage = results.subpages[0];
 
       testsMap["A11Y_3"].result = TEST_VALID;
       testsMap["A11Y_3"].currentURL = subpage.url;
-      
+
       if (subpage.hasTermRGAA) {
         testsMap["RGAA_4"].result = TEST_VALID;
         testsMap["RGAA_4"].currentURL = subpage.url;
@@ -115,16 +117,10 @@ function of(results) {
   if (results.hasClickableRGAA) {
     testsMap["RGAA_2"].result = TEST_VALID;
 
-    if(results.subpages.length > 0 && results.subpages[0].reachable) {
+    if (results.subpages.length > 0 && results.subpages[0].reachable) {
       testsMap["RGAA_3"].result = TEST_VALID;
     }
   }
-
-  
-
-  results.subpages.forEach(n => {
-
-  });
 
   return Object.values(testsMap);
 }

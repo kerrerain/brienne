@@ -67,8 +67,6 @@ async function explorePage(browser, url) {
     checklist.subpages.push(subpage);
   }
 
-  console.log(JSON.stringify(checklist));
-
   return checklist;
 }
 
