@@ -1,7 +1,8 @@
 const process = require("process");
+const logger = require("./logger");
 
 function commonErrorHandler(e) {
-    console.log(e);
+    logger.error(e);
     process.exit(1);
 }
 

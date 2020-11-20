@@ -36,7 +36,8 @@ BRIENNE_OUTPUT=console yarn node ./src
 | BRIENNE_ES_URL        | http://elastic:elastic@localhost:9200 | The URL of the ElasticSearch instance. By default, authenticate with the elastic/elastic credentials.                                                           |
 | BRIENNE_ES_INDEX_NAME | brienne                               | The name of the index used to publish the results.                                                                                                              |
 | BRIENNE_RUNNER        | local                                 | The runner to use. "local" is a development runner running the scripts with a single worker. "docker" is a runner running several workers in Docker containers. |
-| BRIENNE_WORKERS       | 2                                     | The number of workers. Only used by the "docker" runner.                                                                                                        |
+| BRIENNE_WORKERS       | 3                                     | The number of parallel workers. The websites to process are divided between them.                                                                               |
+| BRIENNE_PAGE_TIMEOUT  | 10000                                 | The timeout in ms when a page is unreachable.                                                                                                                   |
 
 ## Build the Docker image
 

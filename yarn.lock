@@ -99,6 +99,7 @@ __metadata:
   resolution: "brienne@workspace:."
   dependencies:
     "@elastic/elasticsearch": ^7.9.1
+    marky: ^1.2.1
     puppeteer: ^5.4.1
     winston: ^3.3.3
   languageName: unknown
@@ -421,6 +422,13 @@ __metadata:
     ms: ^2.1.1
     triple-beam: ^1.3.0
   checksum: ff10653f4198be481d384babee3fc4d998c23d6c916bdff4d79b1bfd70c8c35c6d5d7f8dfa3173cba6837aa286504c0207c9037c6477eac18dd969eca4619a4c
+  languageName: node
+  linkType: hard
+
+"marky@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "marky@npm:1.2.1"
+  checksum: b83093655855cb7b867b0bcc1b444e168cadb3721bf3ee60f733943db814a1d35997cde8423beabd17080875fd39c24c1dfc8c4341008e4be9e668c4e33481dd
   languageName: node
   linkType: hard
 

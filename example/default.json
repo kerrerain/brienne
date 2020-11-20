@@ -11,14 +11,157 @@
     }
   },
   {
-    "id": "bf3f02db3e5f66dfcea8f57e94c091610cc6d944",
-    "name": "pole_emploi_abbeville",
-    "title": "Pôle emploi - Abbeville",
-    "url": "https://lannuaire.service-public.fr/hauts-de-france/somme/pole_emploi-80001-01",
+    "id": "648fc917215c642f392f7d94282b48dcc8ea63f4",
+    "name": "france_services_abbeville",
+    "title": "France Services - Abbeville",
+    "url": "https://lannuaire.service-public.fr/hauts-de-france/somme/msap-80001-01",
     "metadata": {
       "email": "",
-      "telephone": "3949",
-      "url": "https://www.pole-emploi.fr"
+      "telephone": "09 70 20 07 80",
+      "url": ""
+    }
+  },
+  {
+    "id": "638ad22aff68a8346ccd2d4ba9f7f23d530c8302",
+    "name": "france_services_agde",
+    "title": "France Services - Agde",
+    "url": "https://lannuaire.service-public.fr/occitanie/herault/msap-34003-01",
+    "metadata": {
+      "email": "msap@agglohm.net",
+      "telephone": "04 67 01 24 22",
+      "url": "https://www.maisondeservicesaupublic.fr/content/agglo-herault-mediterranee"
+    }
+  },
+  {
+    "id": "0f54d8a0289adb0bf5cdd083af21e0a9d57285da",
+    "name": "france_services_aigues_mortes",
+    "title": "France Services - Aigues-Mortes",
+    "url": "https://lannuaire.service-public.fr/occitanie/gard/msap-30003-01",
+    "metadata": {
+      "email": "msap30220@ville-aigues-mortes.fr",
+      "telephone": "04 66 53 62 00",
+      "url": "https://www.maisondeservicesaupublic.fr/content/aigues-mortes"
+    }
+  },
+  {
+    "id": "439ebb0c64adc0163a65739a02c69dbe9dafe12a",
+    "name": "france_services_aigurande",
+    "title": "France Services - Aigurande",
+    "url": "https://lannuaire.service-public.fr/centre-val-de-loire/indre/msap-36001-01",
+    "metadata": {
+      "email": "contact@ccmarcheberrichonne.fr",
+      "telephone": "02 54 06 37 33",
+      "url": "https://www.maisondeservicesaupublic.fr/content/marche-berrichonne"
+    }
+  },
+  {
+    "id": "48df5815fc946156a1fbf91161a3ec3b0cdcfe12",
+    "name": "france_services_aire_sur_l_adour",
+    "title": "France Services - Aire-sur-l'Adour",
+    "url": "https://lannuaire.service-public.fr/nouvelle-aquitaine/landes/msap-40001-01",
+    "metadata": {
+      "email": "msap@ciasairesuradour.fr",
+      "telephone": "05 58 71 61 65",
+      "url": "https://www.maisondeservicesaupublic.fr/content/aire-sur-ladour-saint-louis"
+    }
+  },
+  {
+    "id": "e7e06a074ef96c32aeea0dc3f37f9e43f57cb631",
+    "name": "france_services_airvault",
+    "title": "France Services - Airvault",
+    "url": "https://lannuaire.service-public.fr/nouvelle-aquitaine/deux-sevres/msap-79005-01",
+    "metadata": {
+      "email": "dgs@airvault.fr",
+      "telephone": "05 49 04 01 06",
+      "url": "http://www.airvault.fr"
+    }
+  },
+  {
+    "id": "54f0bee8e98fec3f50d00643d7c08b3a11b8112a",
+    "name": "france_services_ajaccio",
+    "title": "France Services - Ajaccio",
+    "url": "https://lannuaire.service-public.fr/corse/corse-du-sud/msap-2A004-01",
+    "metadata": {
+      "email": "n.martelli@ville-ajaccio.fr",
+      "telephone": "04 95 10 25 01",
+      "url": "https://www.maisondeservicesaupublic.fr/content/ajaccio-msap-des-jardins-de-lempereur"
+    }
+  },
+  {
+    "id": "a3640896f6a7c668d7f85cb8aa2771a2792611e8",
+    "name": "france_services_alban",
+    "title": "France services - Alban",
+    "url": "https://lannuaire.service-public.fr/occitanie/tarn/msap-81003-01",
+    "metadata": {
+      "email": "accueil@ccmav.fr",
+      "telephone": "05 63 79 26 70",
+      "url": "https://www.maisondeservicesaupublic.fr/content/alban"
+    }
+  },
+  {
+    "id": "54af5db1a527f4a97a9d36a92814e21807419c8b",
+    "name": "france_services_albi",
+    "title": "France Services - Albi",
+    "url": "https://lannuaire.service-public.fr/occitanie/tarn/msap-81004-01",
+    "metadata": {
+      "email": "msap@mairie-albi.fr",
+      "telephone": "05 63 49 15 00",
+      "url": "https://www.maisondeservicesaupublic.fr/content/albi-rive-droite"
+    }
+  },
+  {
+    "id": "5a0af375dbd56dea0cbe47ac584fe9ce0a2ee15c",
+    "name": "france_services_alencon",
+    "title": "France Services - Alençon",
+    "url": "https://lannuaire.service-public.fr/normandie/orne/msap-61001-01",
+    "metadata": {
+      "email": "ilham.elibrahimi@ville-alencon.fr",
+      "telephone": "02 33 29 70 06",
+      "url": "https://www.maisondeservicesaupublic.fr/content/perseigne"
+    }
+  },
+  {
+    "id": "3969f773f44327059b08b555d56dd8467bb718c0",
+    "name": "france_services_altkirch",
+    "title": "France Services - Altkirch",
+    "url": "https://lannuaire.service-public.fr/grand-est/haut-rhin/msap-68004-01",
+    "metadata": {
+      "email": "pref-france-services@haut-rhin.gouv.fr",
+      "telephone": "03 89 29 23 90",
+      "url": "http://www.haut-rhin.gouv.fr"
+    }
+  },
+  {
+    "id": "7ab79baf4921f1a24b8ab210d35e3b46bc8e9cee",
+    "name": "france_services_ambazac",
+    "title": "France Services - Ambazac",
+    "url": "https://lannuaire.service-public.fr/nouvelle-aquitaine/haute-vienne/msap-87002-01",
+    "metadata": {
+      "email": "ambazac@pimms.org",
+      "telephone": "05 55 57 05 30",
+      "url": "https://www.maisondeservicesaupublic.fr/content/pimms-ambazac"
+    }
+  },
+  {
+    "id": "2921e24e121cd608d07cdb80bf130ac57435fb26",
+    "name": "france_services_amberieu_en_bugey",
+    "title": "France Services - Ambérieu-en-Bugey",
+    "url": "https://lannuaire.service-public.fr/auvergne-rhone-alpes/ain/msap-01004-01",
+    "metadata": {
+      "email": "https://www.ville-amberieuenbugey.fr/Contact.html",
+      "telephone": "04 74 35 30 97",
+      "url": "https://www.ville-amberieuenbugey.fr/Pole-de-services-Agora.html"
+    }
+  },
+  {
+    "id": "661dda8d1603547793c9007dc9f4a10f05a9d7f7",
+    "name": "france_services_ambrieres_les_vallees",
+    "title": "France Services - Ambrières-les-Vallées",
+    "url": "https://lannuaire.service-public.fr/pays-de-la-loire/mayenne/msap-53003-01",
+    "metadata": {
+      "email": "directiontechnique@bocagemayennais.fr",
+      "telephone": "02 43 08 01 79",
+      "url": "https://www.maisondeservicesaupublic.fr/content/ambrieres-les-vallees"
     }
   }
 ]

@@ -2,7 +2,7 @@ const errors = require("./errors");
 const logger = require("./logger");
 const MODULE_NAME = "[scraper]";
 
-async function explorePage(browser, url) {
+async function explorePage(page, url) {
   logger.debug(`${MODULE_NAME} ${url} Starting.`);
 
   const checklist = {
@@ -14,19 +14,22 @@ async function explorePage(browser, url) {
     hasTermRGAA: false,
     hasClickableA11Y: false,
     hasClickableRGAA: false,
-    subpages: []
+    subpages: [],
+    errors: []
   };
-
-  const page = await browser
-    .newPage()
-    .catch(errors.commonErrorHandler);
 
   const response = await page
     .goto(website.url)
-    .catch(errors.commonErrorHandler);
+    .catch(error => {
+      message = `Error while processing ${url}: ${error}`;
+      checklist.errors.push({
+        "message": message
+      });
+      logger.error(message);
+    });
 
   // If the page isn't reachable, it's useless to go further.
-  if (response.status() != 200) {
+  if (!response || response.status() != 200) {
     logger.debug(`${MODULE_NAME} ${url} Unreachable.`);
     return checklist;
   }
@@ -67,7 +70,7 @@ async function explorePage(browser, url) {
       continue;
     }
 
-    const subpage = await explorePage(browser, element.url)
+    const subpage = await explorePage(page, element.url)
       .catch(errors.commonErrorHandler);
 
     checklist.subpages.push(subpage);
