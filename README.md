@@ -30,6 +30,7 @@ BRIENNE_OUTPUT=console yarn node ./src
 
 | Name                  | Default                               | Description                                                                                                                                                     |
 |-----------------------|---------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| BRIENNE_LOGGER_LEVEL  | info                                  | The level of the logger.                                                                                                                                        |
 | BRIENNE_INPUT_FILE    | example/default.json                  | The file to process. It's a JSON array file listing the websites to analyze.                                                                                    |
 | BRIENNE_OUTPUT        | elastic                               | The output where the results are published. Can be one of "elastic" or "console".                                                                               |
 | BRIENNE_ES_URL        | http://elastic:elastic@localhost:9200 | The URL of the ElasticSearch instance. By default, authenticate with the elastic/elastic credentials.                                                           |

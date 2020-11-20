@@ -1,7 +1,9 @@
 const errors = require("./errors");
+const logger = require("./logger");
+const MODULE_NAME = "[scraper]";
 
 async function explorePage(browser, url) {
-  console.log("Checking page: ", url);
+  logger.debug(`${MODULE_NAME} ${url} Starting.`);
 
   const checklist = {
     url: url,
@@ -25,10 +27,13 @@ async function explorePage(browser, url) {
 
   // If the page isn't reachable, it's useless to go further.
   if (response.status() != 200) {
+    logger.debug(`${MODULE_NAME} ${url} Unreachable.`);
     return checklist;
   }
 
   checklist.reachable = true;
+
+  logger.debug(`${MODULE_NAME} ${url} Searching terms.`);
 
   const [hasTermW3C, hasTermWCAG, hasTermA11Y, hasTermRGAA] = await Promise.all([
     _hasTerm(page, "W3C"),
@@ -44,6 +49,7 @@ async function explorePage(browser, url) {
 
   // If there isn't any A11Y or RGAA term, there is nothing more to scrap.
   if (!hasTermA11Y && !hasTermRGAA) {
+    logger.debug(`${MODULE_NAME} ${url} Finished. Not AY11 or RGAA terms found.`);
     return checklist;
   }
 
@@ -66,6 +72,8 @@ async function explorePage(browser, url) {
 
     checklist.subpages.push(subpage);
   }
+
+  logger.debug(`${MODULE_NAME} ${url} Finished.`);
 
   return checklist;
 }
