@@ -32,11 +32,11 @@ BRIENNE_OUTPUT=console yarn node ./src
 |-----------------------|---------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | BRIENNE_LOGGER_LEVEL  | info                                  | The level of the logger.                                                                                                                                        |
 | BRIENNE_INPUT_FILE    | example/default.json                  | The file to process. It's a JSON array file listing the websites to analyze.                                                                                    |
-| BRIENNE_OUTPUT        | elastic                               | The output where the results are published. Can be one of "elastic" or "console".                                                                               |
+| BRIENNE_OUTPUT        | elastic                               | The output where the results are published. Can be one of "elastic", "console", or "blackhole".                                                                 |
 | BRIENNE_ES_URL        | http://elastic:elastic@localhost:9200 | The URL of the ElasticSearch instance. By default, authenticate with the elastic/elastic credentials.                                                           |
 | BRIENNE_ES_INDEX_NAME | brienne                               | The name of the index used to publish the results.                                                                                                              |
 | BRIENNE_RUNNER        | local                                 | The runner to use. "local" is a development runner running the scripts with a single worker. "docker" is a runner running several workers in Docker containers. |
-| BRIENNE_WORKERS       | 3                                     | The number of parallel workers. The websites to process are divided between them.                                                                               |
+| BRIENNE_WORKERS       | 4                                     | The number of parallel workers. The websites to process are divided between them.                                                                               |
 | BRIENNE_PAGE_TIMEOUT  | 10000                                 | The timeout in ms when a page is unreachable.                                                                                                                   |
 
 ## Build the Docker image

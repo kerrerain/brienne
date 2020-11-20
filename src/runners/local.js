@@ -7,12 +7,13 @@ const tests = require("../tests");
 const logger = require("../logger");
 
 const MODULE_NAME = "[runners.local]";
-const BRIENNE_WORKERS = Number(process.env.BRIENNE_WORKERS || "3");
+const BRIENNE_WORKERS = Number(process.env.BRIENNE_WORKERS || "4");
 const BRIENNE_PAGE_TIMEOUT = Number(process.env.BRIENNE_PAGE_TIMEOUT || "10000");
 const BRIENNE_OUTPUT = process.env.BRIENNE_OUTPUT || "elastic";
 const output = require(`../outputs/${BRIENNE_OUTPUT}`);
 
 async function run(websites) {
+  marky.mark(MODULE_NAME);
   logger.info(`${MODULE_NAME} Starting local runner with ${BRIENNE_WORKERS} workers.`);
 
   const browser = await puppeteer
@@ -32,7 +33,8 @@ async function run(websites) {
     .close()
     .catch(errors.commonErrorHandler);
 
-  logger.info(`${MODULE_NAME} Stopped local runner.`);
+  const result = marky.stop(MODULE_NAME);
+  logger.info(`${MODULE_NAME} Stopped local runner. Took ${Math.floor(result.duration)} ms.`);
 }
 
 async function _processWebsiteList(browser, websites) {
