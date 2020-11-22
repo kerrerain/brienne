@@ -12,7 +12,7 @@ const BRIENNE_PAGE_TIMEOUT = Number(process.env.BRIENNE_PAGE_TIMEOUT || "10000")
 const BRIENNE_OUTPUT = process.env.BRIENNE_OUTPUT || "elastic";
 const output = require(`../outputs/${BRIENNE_OUTPUT}`);
 
-async function run(websites) {
+async function run(cursor) {
   marky.mark(MODULE_NAME);
   logger.info(`${MODULE_NAME} Starting local runner with ${BRIENNE_WORKERS} workers.`);
 
@@ -20,11 +20,10 @@ async function run(websites) {
     .launch()
     .catch(errors.commonErrorHandler);
 
-  const websiteSections = _sliceWebsites(websites, BRIENNE_WORKERS);
   const promises = []
 
-  for (section of websiteSections) {
-    promises.push(_processWebsiteList(browser, section));
+  for (let i = 0; i < BRIENNE_WORKERS; i++) {
+    promises.push(_processCursor(browser, cursor));
   }
 
   await Promise.all(promises);
@@ -37,14 +36,14 @@ async function run(websites) {
   logger.info(`${MODULE_NAME} Stopped local runner. Took ${Math.floor(result.duration)} ms.`);
 }
 
-async function _processWebsiteList(browser, websites) {
+async function _processCursor(browser, cursor) {
   const page = await browser
     .newPage()
     .catch(errors.commonErrorHandler);
   page.setDefaultTimeout(BRIENNE_PAGE_TIMEOUT);
 
-  for (website of websites) {
-    await _processWebsite(page, website)
+  while (cursor.hasNext()) {
+    await _processWebsite(page, cursor.next())
       .catch(errors.commonErrorHandler);
   }
 }

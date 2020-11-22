@@ -38,6 +38,7 @@ BRIENNE_OUTPUT=console yarn node ./src
 | BRIENNE_RUNNER        | local                                 | The runner to use. "local" is a development runner running the scripts with a single worker. "docker" is a runner running several workers in Docker containers. |
 | BRIENNE_WORKERS       | 4                                     | The number of parallel workers. The websites to process are divided between them.                                                                               |
 | BRIENNE_PAGE_TIMEOUT  | 10000                                 | The timeout in ms when a page is unreachable.                                                                                                                   |
+| BRIENNE_CACHE_FOLDER  | cache                                 | The folder where the HTML content is cached.                                                                                                                    |
 
 ## Build the Docker image
 

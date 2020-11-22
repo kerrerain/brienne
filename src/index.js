@@ -7,7 +7,7 @@ const runner = require(`./runners/${BRIENNE_RUNNER}`);
 
 async function run() {
   runner
-    .run(input.fetchWebsites())
+    .run(input.getWebsitesCursor())
     .catch(errors.commonErrorHandler);
 }
 

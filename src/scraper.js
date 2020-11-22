@@ -10,42 +10,6 @@ const REGEX_WCAG = new RegExp("WCAG", "mi");
 const REGEX_A11Y = new RegExp("accessibilité", "mi");
 const REGEX_RGAA = new RegExp("déclaration de conformité", "mi");
 
-async function _reachURL(page, url) {
-  const report = {
-    content: cache.getURLContent(url),
-    errors: []
-  };
-
-  // The content is loaded from cache if possible,
-  // because the rendering of the page can be very slow.
-  if (report.content !== "") {
-    return report;
-  }
-
-  const response = await page
-    .goto(url)
-    .catch(error => {
-      message = `Error while processing ${url}: ${error}`;
-      report.errors.push({
-        "message": message
-      });
-      logger.error(message);
-    });
-
-  // If the page isn't reachable because of an error,
-  // it's useless to go further.
-  if (!response || response.status() !== 200) {
-    return report;
-  }
-
-  report.content = await page
-    .content()
-    .catch(errors.commonErrorHandler);
-
-  cache.putURLContent(url, report.content);
-
-  return report
-}
 
 async function explorePage(page, url) {
   logger.debug(`${MODULE_NAME} ${url} Starting.`);
@@ -112,6 +76,43 @@ async function explorePage(page, url) {
   logger.debug(`${MODULE_NAME} ${url} Finished.`);
 
   return checklist;
+}
+
+async function _reachURL(page, url) {
+  const report = {
+    content: cache.getURLContent(url),
+    errors: []
+  };
+
+  // The content is loaded from cache if possible,
+  // because the rendering of the page can be very slow.
+  if (report.content !== "") {
+    return report;
+  }
+
+  const response = await page
+    .goto(url)
+    .catch(error => {
+      message = `Error while processing ${url}: ${error}`;
+      report.errors.push({
+        "message": message
+      });
+      logger.error(message);
+    });
+
+  // If the page isn't reachable because of an error,
+  // it's useless to go further.
+  if (!response || response.status() !== 200) {
+    return report;
+  }
+
+  report.content = await page
+    .content()
+    .catch(errors.commonErrorHandler);
+
+  cache.putURLContent(url, report.content);
+
+  return report
 }
 
 /**
