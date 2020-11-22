@@ -28,7 +28,7 @@ function putURLContent(url, content) {
 }
 
 function _keyURL(url) {
-  return url.replace(/[\:\.\/]/g, "_");
+  return url.split("?")[0].replace(/[\:\.\/]/g, "_");
 }
 
 module.exports = {

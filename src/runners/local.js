@@ -37,14 +37,16 @@ async function run(cursor) {
 }
 
 async function _processCursor(browser, cursor) {
-  const page = await browser
-    .newPage()
-    .catch(errors.commonErrorHandler);
-  page.setDefaultTimeout(BRIENNE_PAGE_TIMEOUT);
-
   while (cursor.hasNext()) {
+    const page = await browser
+      .newPage()
+      .catch(errors.commonErrorHandler);
+    page.setDefaultTimeout(BRIENNE_PAGE_TIMEOUT);
+
     await _processWebsite(page, cursor.next())
       .catch(errors.commonErrorHandler);
+
+    await page.close();
   }
 }
 
@@ -63,25 +65,6 @@ async function _processWebsite(page, website) {
 
   const result = marky.stop(website.url);
   logger.info(`${MODULE_NAME} Took ${Math.floor(result.duration)} ms for ${website.url}`);
-}
-
-/**
- * Slices the websites list into several parts. There may
- * have less objects in the last section, if the division doesn't
- * return an integer.
- * 
- * @param {*} websites 
- * @param {*} workers 
- */
-function _sliceWebsites(websites, workers) {
-  const parts = [];
-  const sectionLength = Math.ceil(websites.length / workers);
-
-  for (let i = 0; i < workers; i++) {
-    parts[i] = websites.slice(i * sectionLength, i * sectionLength + sectionLength);
-  }
-
-  return parts;
 }
 
 module.exports = {

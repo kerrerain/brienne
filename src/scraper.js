@@ -11,7 +11,11 @@ const REGEX_A11Y = new RegExp("accessibilité", "mi");
 const REGEX_RGAA = new RegExp("déclaration de conformité", "mi");
 
 
-async function explorePage(page, url) {
+async function explorePage(page, url, depth) {
+  if (!depth) {
+    depth = 0;
+  }
+
   logger.debug(`${MODULE_NAME} ${url} Starting.`);
 
   const checklist = {
@@ -63,11 +67,11 @@ async function explorePage(page, url) {
     const subpageURL = new URL(element.url, url).href;
 
     // Avoid an infinite loop :P
-    if (subpageURL === url) {
+    if (subpageURL === url || depth >= 2) {
       continue;
     }
 
-    const subpage = await explorePage(page, subpageURL)
+    const subpage = await explorePage(page, subpageURL, depth + 1)
       .catch(errors.commonErrorHandler);
 
     checklist.subpages.push(subpage);
@@ -91,7 +95,9 @@ async function _reachURL(page, url) {
   }
 
   const response = await page
-    .goto(url)
+    .goto(url, {
+      waitUntil: "networkidle2" // More forgiving option for websites that download many files.
+    })
     .catch(error => {
       message = `Error while processing ${url}: ${error}`;
       report.errors.push({

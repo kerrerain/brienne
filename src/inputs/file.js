@@ -1,9 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 const process = require("process");
-const logger = require("./logger");
+const { Cursor } = require("./cursor");
+const logger = require("../logger");
 
-const MODULE_NAME = "[input]";
+const MODULE_NAME = "[inputs.file]";
 const BRIENNE_INPUT_FILE = process.env.BRIENNE_INPUT_FILE || path.join("example", "default.json");
 
 /**
@@ -27,24 +28,7 @@ function _fetchWebsites() {
     return Object.values(websitesMap);
 }
 
-class Cursor {
-    constructor(websites) {
-        this._websites = websites;
-        this._position = 0;
-    }
-
-    next() {
-        const website = this._websites[this._position];
-        this._position += 1;
-        return website;
-    }
-
-    hasNext() {
-        return this._position < this._websites.length - 1;
-    }
-}
-
-function getWebsitesCursor() {
+async function getWebsitesCursor() {
     return new Cursor(_fetchWebsites());
 }
 
