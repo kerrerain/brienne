@@ -4,5 +4,6 @@
 .pnp.js
 
 # --- Brienne ---
+cache
 docker
 example

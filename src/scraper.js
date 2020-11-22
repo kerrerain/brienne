@@ -1,3 +1,6 @@
+const { URL } = require("url");
+const cheerio = require("cheerio");
+const cache = require("./cache");
 const errors = require("./errors");
 const logger = require("./logger");
 const MODULE_NAME = "[scraper]";
@@ -6,6 +9,43 @@ const REGEX_W3C = new RegExp("W3C", "mi");
 const REGEX_WCAG = new RegExp("WCAG", "mi");
 const REGEX_A11Y = new RegExp("accessibilité", "mi");
 const REGEX_RGAA = new RegExp("déclaration de conformité", "mi");
+
+async function _reachURL(page, url) {
+  const report = {
+    content: cache.getURLContent(url),
+    errors: []
+  };
+
+  // The content is loaded from cache if possible,
+  // because the rendering of the page can be very slow.
+  if (report.content !== "") {
+    return report;
+  }
+
+  const response = await page
+    .goto(url)
+    .catch(error => {
+      message = `Error while processing ${url}: ${error}`;
+      report.errors.push({
+        "message": message
+      });
+      logger.error(message);
+    });
+
+  // If the page isn't reachable because of an error,
+  // it's useless to go further.
+  if (!response || response.status() !== 200) {
+    return report;
+  }
+
+  report.content = await page
+    .content()
+    .catch(errors.commonErrorHandler);
+
+  cache.putURLContent(url, report.content);
+
+  return report
+}
 
 async function explorePage(page, url) {
   logger.debug(`${MODULE_NAME} ${url} Starting.`);
@@ -23,19 +63,12 @@ async function explorePage(page, url) {
     errors: []
   };
 
-  const response = await page
-    .goto(website.url)
-    .catch(error => {
-      message = `Error while processing ${url}: ${error}`;
-      checklist.errors.push({
-        "message": message
-      });
-      logger.error(message);
-    });
+  const report = await _reachURL(page, url);
 
-  // If the page isn't reachable, it's useless to go further.
-  if (!response || response.status() != 200) {
-    logger.debug(`${MODULE_NAME} ${url} Unreachable.`);
+  // If the page content couldn't be found,
+  // an error may have occured. It's useless to go further.
+  if (report.content === "") {
+    checklist.errors.push(...report.errors);
     return checklist;
   }
 
@@ -43,14 +76,10 @@ async function explorePage(page, url) {
 
   logger.debug(`${MODULE_NAME} ${url} Searching terms.`);
 
-  const pageContent = await page
-    .content()
-    .catch(errors.commonErrorHandler);
-
-  checklist.hasTermW3C = REGEX_W3C.test(pageContent);
-  checklist.hasTermWCAG = REGEX_WCAG.test(pageContent);
-  checklist.hasTermA11Y = REGEX_A11Y.test(pageContent);
-  checklist.hasTermRGAA = REGEX_RGAA.test(pageContent);
+  checklist.hasTermW3C = REGEX_W3C.test(report.content);
+  checklist.hasTermWCAG = REGEX_WCAG.test(report.content);
+  checklist.hasTermA11Y = REGEX_A11Y.test(report.content);
+  checklist.hasTermRGAA = REGEX_RGAA.test(report.content);
 
   // If there isn't any A11Y or RGAA term, there is nothing more to scrap.
   if (!checklist.hasTermA11Y && !checklist.hasTermRGAA) {
@@ -58,21 +87,23 @@ async function explorePage(page, url) {
     return checklist;
   }
 
-  const [clickableA11Y, clickableRGAA] = await Promise.all([
-    _clickableElements(page, REGEX_A11Y),
-    _clickableElements(page, REGEX_RGAA),
-  ]);
+  const $ = cheerio.load(report.content);
+
+  const clickableA11Y = _clickableElements($, REGEX_A11Y);
+  const clickableRGAA = _clickableElements($, REGEX_RGAA);
 
   checklist.hasClickableA11Y = clickableA11Y.length > 0;
   checklist.hasClickableRGAA = clickableRGAA.length > 0;
 
   for (element of clickableA11Y.concat(clickableRGAA)) {
+    const subpageURL = new URL(element.url, url).href;
+
     // Avoid an infinite loop :P
-    if (element.url === url) {
+    if (subpageURL === url) {
       continue;
     }
 
-    const subpage = await explorePage(page, element.url)
+    const subpage = await explorePage(page, subpageURL)
       .catch(errors.commonErrorHandler);
 
     checklist.subpages.push(subpage);
@@ -87,16 +118,16 @@ async function explorePage(page, url) {
  * Searches for clickable elements with this term on a page.
  * If no element has been found, returns an empty array.
  * 
- * @param {object} page The puppeteer page.
+ * @param {object} $ The Cheerio instance.
  * @param {RegExp} regex The regex to use.
  */
-async function _clickableElements(page, regex) {
-  const elements = await page.$$eval("a", nodes => nodes.map(n => {
+function _clickableElements($, regex) {
+  const elements = $("a").map((_, element) => {
     return {
-      url: n.href,
-      text: n.innerText
+      text: $(element).text(),
+      url: $(element).attr("href")
     }
-  }));
+  }).get();
 
   return elements.filter(n => {
     return regex.test(n.text);

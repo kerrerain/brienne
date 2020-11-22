@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@elastic/elasticsearch": "^7.9.1",
+    "cheerio": "^1.0.0-rc.3",
     "marky": "^1.2.1",
     "puppeteer": "^5.4.1",
     "winston": "^3.3.3"
