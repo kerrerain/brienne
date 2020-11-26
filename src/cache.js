@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const process = require("process");
+const crypto = require("crypto");
 const logger = require("./logger");
 const MODULE_NAME = "[cache]";
 const BRIENNE_CACHE_FOLDER = process.env.BRIENNE_CACHE_FOLDER || "cache";
@@ -28,7 +29,9 @@ function putURLContent(url, content) {
 }
 
 function _keyURL(url) {
-  return url.split("?")[0].replace(/[\:\.\/]/g, "_");
+  const hash = crypto.createHash("sha1");
+  hash.update(url);
+  return hash.digest("hex");
 }
 
 module.exports = {

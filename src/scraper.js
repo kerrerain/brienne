@@ -1,8 +1,10 @@
 const { URL } = require("url");
+const process = require("process");
 const cheerio = require("cheerio");
 const cache = require("./cache");
 const errors = require("./errors");
 const logger = require("./logger");
+const BRIENNE_NO_CACHE = process.env.BRIENNE_NO_CACHE || "0";
 const MODULE_NAME = "[scraper]";
 
 const REGEX_W3C = new RegExp("W3C", "mi");
@@ -90,7 +92,7 @@ async function _reachURL(page, url) {
 
   // The content is loaded from cache if possible,
   // because the rendering of the page can be very slow.
-  if (report.content !== "") {
+  if (report.content !== "" && BRIENNE_NO_CACHE !== "1") {
     return report;
   }
 

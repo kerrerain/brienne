@@ -15,7 +15,7 @@ class Cursor {
   }
 
   hasNext() {
-    return this._position < this._websites.length - 1;
+    return this._position < this._websites.length;
   }
 }
 
