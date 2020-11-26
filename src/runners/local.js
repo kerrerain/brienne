@@ -38,12 +38,13 @@ async function run(cursor) {
 
 async function _processCursor(browser, cursor) {
   while (cursor.hasNext()) {
+    const nextWebsite = cursor.next();
     const page = await browser
       .newPage()
       .catch(errors.commonErrorHandler);
     page.setDefaultTimeout(BRIENNE_PAGE_TIMEOUT);
 
-    await _processWebsite(page, cursor.next())
+    await _processWebsite(page, nextWebsite)
       .catch(errors.commonErrorHandler);
 
     await page.close();
