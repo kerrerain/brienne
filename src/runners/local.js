@@ -60,7 +60,7 @@ async function _processWebsite(page, website) {
     .explorePage(page, website.url)
     .catch(errors.commonErrorHandler);
 
-  output.publish(tests.of(results));
+  output.publish(Object.values(tests.of(results)));
 
   logger.info(`${MODULE_NAME} Published results for website ${website.url}`);
 

@@ -10,7 +10,7 @@ const MODULE_NAME = "[scraper]";
 const REGEX_W3C = new RegExp("W3C", "mi");
 const REGEX_WCAG = new RegExp("WCAG", "mi");
 const REGEX_A11Y = new RegExp("accessibilité", "mi");
-const REGEX_RGAA = new RegExp("déclaration de conformité", "mi");
+const REGEX_RGAA = new RegExp("déclaration de conformité|déclaration d'accessibilité", "mi");
 
 
 async function explorePage(page, url, depth) {
@@ -102,9 +102,7 @@ async function _reachURL(page, url) {
     })
     .catch(error => {
       message = `Error while processing ${url}: ${error}`;
-      report.errors.push({
-        "message": message
-      });
+      report.errors.push(message);
       logger.error(message);
     });
 
@@ -113,6 +111,11 @@ async function _reachURL(page, url) {
   if (!response || response.status() !== 200) {
     return report;
   }
+
+  // Avoid error with redirections.
+  // https://github.com/puppeteer/puppeteer/issues/3323
+  //
+  await page.waitForSelector("html");
 
   report.content = await page
     .content()

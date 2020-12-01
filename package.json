@@ -3,6 +3,9 @@
   "author": "onepoint",
   "version": "0.0.1",
   "license": "MIT",
+  "scripts": {
+    "test": "mocha"
+  },
   "dependencies": {
     "@elastic/elasticsearch": "^7.9.1",
     "axios": "^0.21.0",
@@ -10,5 +13,8 @@
     "marky": "^1.2.1",
     "puppeteer": "^5.4.1",
     "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "mocha": "^8.2.1"
   }
 }
