@@ -1,5 +1,21 @@
 const TEST_VALID = "C";
 const TEST_INVALID = "NC";
+const CLICKABLE_TERMS = [
+  {
+    code: "A11Y_1",
+    tests: {
+      clickable: "A11Y_2",
+      reachable: "A11Y_3"
+    }
+  },
+  {
+    code: "RGAA_1",
+    tests: {
+      clickable: "RGAA_2",
+      reachable: "RGAA_3"
+    }
+  }
+];
 const TESTS = [
   {
     id: "0",
@@ -96,139 +112,87 @@ const TESTS = [
     code: "A11Y_6",
     topic: "RGAA",
     title: "The homepage mentions the 'WCAG' keyword."
+  },
+  {
+    id: "16",
+    code: "RGAA_8",
+    topic: "RGAA",
+    title: "The website mentions the 'page d\'aide' keyword."
+  },
+  {
+    id: "17",
+    code: "RGAA_9",
+    topic: "RGAA",
+    title: "The website mentions the 'schéma pluriannuel' keyword."
+  },
+  {
+    id: "18",
+    code: "RGAA_10",
+    topic: "RGAA",
+    title: "The website mentions the 'plan d\'actions' keyword."
   }
-]
+];
 
-function of(results) {
+function of(checklist) {
   const testsMap = {};
-  const now = new Date().toISOString();
 
   TESTS.forEach(n => {
     testsMap[n.code] = {
-      baseURL: results.url,
-      currentURL: results.url,
+      baseURL: checklist.url,
+      currentURL: checklist.url,
       test: n,
       result: TEST_INVALID, // Until it has been checked, it's considered invalid.
       status: "success",
-      date: now,
+      date: new Date().toISOString(),
       metadata: {},
       errors: []
     };
   });
 
-  const criteria = {
-    "A11Y_0": "reachable",
-    "A11Y_1": "hasTermA11Y",
-    "A11Y_2": "hasClickableA11Y",
-    "A11Y_5": "hasTermW3C",
-    "A11Y_6": "hasTermWCAG",
-    "RGAA_1": "hasTermRGAA",
-    "RGAA_2": "hasClickableRGAA"
-  };
-  Object.keys(criteria).forEach(code => {
-    if (results[criteria[code]]) {
-      testsMap[code].result = TEST_VALID;
+  if (checklist.reachable) {
+    testsMap["A11Y_0"].result = TEST_VALID;
+  }
+
+  if (!checklist.reachable) {
+    testsMap["A11Y_0"].errors = checklist.errors;
+  }
+
+  _check_terms(checklist, testsMap);
+
+  CLICKABLE_TERMS.forEach(n => {
+    if (checklist.terms[n.code].links.length > 0) {
+      testsMap[n.tests.clickable].result = TEST_VALID;
     }
+    checklist.subpages.forEach(page => {
+      if (checklist.terms[n.code].links.includes(page.url)) {
+        if (page.reachable) {
+          testsMap[n.tests.reachable].result = TEST_VALID;
+        }
+        testsMap[n.tests.reachable].currentURL = page.url;
+        testsMap[n.tests.reachable].errors = page.errors;
+      }
+    });
   });
 
-  if (!results.reachable) {
-    testsMap["A11Y_0"].errors = results.errors;
-  }
-
-  if (results.subpages &&
-    results.subpages.length > 0) {
-    const subpage = results.subpages[0];
-
-    ["A11Y_3", "RGAA_3", "RGAA_4", "RGAA_5"].forEach(code => {
-      testsMap[code].currentURL = subpage.url;
-    });
-
-    if (results.hasClickableA11Y &&
-      subpage.reachable) {
-      testsMap["A11Y_3"].result = TEST_VALID;
-    }
-
-    if (results.hasClickableRGAA &&
-      subpage.reachable) {
-      testsMap["RGAA_3"].result = TEST_VALID;
-    }
-
-    ["A11Y_3", "RGAA_3"].forEach(code => {
-      testsMap[code].errors = subpage.errors;
-    });
-
-    if (subpage.hasTermA11Y || subpage.hasTermRGAA) {
-      testsMap["RGAA_4"].result = TEST_VALID;
-    }
-
-    if (subpage.hasClickableA11Y || subpage.hasClickableRGAA) {
-      testsMap["RGAA_5"].result = TEST_VALID;
-    }
-
-    if (subpage.subpages &&
-      subpage.subpages.length > 0) {
-
-      const subsubpage = subpage.subpages[0];
-
-      testsMap["RGAA_6"].currentURL = subsubpage.url;
-      testsMap["RGAA_6"].errors = subsubpage.errors;
-
-      if (subsubpage.reachable) {
-        testsMap["RGAA_6"].result = TEST_VALID;
-      }
-    }
-  }
-
-  // if (results.hasClickableA11Y) {
-  //   testsMap["A11Y_2"].result = TEST_VALID;
-
-  //   if (results.subpages.length > 0 && results.subpages[0].reachable) {
-  //     const subpage = results.subpages[0];
-
-  //     testsMap["A11Y_3"].result = TEST_VALID;
-  //     testsMap["A11Y_3"].currentURL = subpage.url;
-  //     testsMap["RGAA_4"].currentURL = subpage.url;
-  //     testsMap["RGAA_5"].currentURL = subpage.url;
-
-  //     if (subpage.hasTermRGAA) {
-  //       testsMap["RGAA_4"].result = TEST_VALID;
-  //     }
-
-  //     if (subpage.hasClickableRGAA) {
-  //       testsMap["RGAA_5"].result = TEST_VALID;
-  //     }
-  //   }
-  // }
-
-  // if (results.hasClickableRGAA) {
-  //   testsMap["RGAA_2"].result = TEST_VALID;
-
-  //   if (results.subpages.length > 0 && results.subpages[0].reachable) {
-  //     const subpage = results.subpages[0];
-
-  //     testsMap["RGAA_3"].result = TEST_VALID;
-  //     testsMap["RGAA_3"].currentURL = subpage.url;
-  //     testsMap["RGAA_4"].currentURL = subpage.url;
-  //     testsMap["RGAA_5"].currentURL = subpage.url;
-
-  //     if (subpage.hasTermRGAA) {
-  //       testsMap["RGAA_4"].result = TEST_VALID;
-  //     }
-
-  //     if (subpage.hasClickableRGAA) {
-  //       if (results.subpages[0].subpages.length > 0 && results.subpages[0].subpages[0].reachable) {
-  //         testsMap["RGAA_6"].result = TEST_VALID;
-  //         testsMap["RGAA_6"].currentURL = results.subpages[0].subpages[0].url;
-  //       }
-  //     }
-  //   }
-  // }
-
   return testsMap;
+}
+
+
+function _check_terms(page, testsMap) {
+  Object.keys(page.terms).forEach(n => {
+    if (page.terms[n].exists) {
+      testsMap[n].result = TEST_VALID;
+      testsMap[n].currentURL = page.url;
+    }
+  });
+  page.subpages.forEach(n => {
+    _check_terms(n, testsMap);
+  });
 }
 
 module.exports = {
   of,
   TEST_VALID,
-  TEST_INVALID
+  TEST_INVALID,
+  CLICKABLE_TERMS
 };

@@ -3,6 +3,9 @@
 .yarnrc.yml
 .pnp.js
 
+# --- VSCode ---
+.vscode
+
 # --- Brienne ---
 cache
 result.json
