@@ -1,7 +1,7 @@
-function publish(tests) {
+function publish() {
   // Does nothing.
 }
 
 module.exports = {
-  publish
+  publish,
 };

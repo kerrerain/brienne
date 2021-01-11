@@ -1,16 +1,16 @@
-const { of, TEST_VALID, CLICKABLE_TERMS } = require("../src/tests");
-const checklistFactory = require("../src/checklist");
-const assert = require("assert");
+const assert = require('assert');
+const { of, TEST_VALID, CLICKABLE_TERMS } = require('../src/tests');
+const checklistFactory = require('../src/checklist');
 
-describe("The 'of' function", () => {
-  CLICKABLE_TERMS.forEach(n => {
+describe('The of function', () => {
+  CLICKABLE_TERMS.forEach((n) => {
     it(`should check that the ${n.code} term is clickable.`, () => {
       // Given a checklist
-      const checklist = checklistFactory.create("https://homepage.com");
+      const checklist = checklistFactory.create('https://homepage.com');
 
       // And a term of the checklist that links to subpages
       checklist.terms[n.code].links = [
-        "https://subpage.com"
+        'https://subpage.com',
       ];
 
       // When testing this checklist

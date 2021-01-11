@@ -11,6 +11,20 @@ module.exports = {
     ecmaVersion: 12,
   },
   rules: {
+    'no-console': 'off',
+    'no-param-reassign': [
+      'error',
+      {
+        props: false,
+      },
+    ],
+    'no-underscore-dangle': 'off',
+    'no-plusplus': [
+      'error',
+      {
+        allowForLoopAfterthoughts: true,
+      },
+    ],
   },
   globals: {
     describe: 'readonly',
