@@ -186,6 +186,25 @@ function of(checklist) {
     });
   });
 
+  checklist.subpages.forEach((page) => {
+    if (page.terms.RGAA_1.exists) {
+      testsMap.RGAA_4.result = TEST_VALID;
+      testsMap.RGAA_4.currentURL = page.url;
+    }
+    if (page.terms.RGAA_1.links.length > 0) {
+      testsMap.RGAA_5.result = TEST_VALID;
+      testsMap.RGAA_5.currentURL = page.url;
+    }
+    page.subpages.forEach((n) => {
+      if (page.terms.RGAA_1.links.includes(n.url)) {
+        if (n.reachable) {
+          testsMap.RGAA_6.result = TEST_VALID;
+        }
+        testsMap.RGAA_6.currentURL = n.url;
+      }
+    });
+  });
+
   return testsMap;
 }
 

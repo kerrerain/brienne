@@ -11,7 +11,7 @@ class Cursor {
   next() {
     const website = this._websites[this._position];
     this._position += 1;
-    logger.info(`${MODULE_NAME} ${this._position} / ${this._websites.length} (${Math.ceil(this._position / (this._websites.length * 100))}%).`);
+    logger.info(`${MODULE_NAME} ${this._position} / ${this._websites.length} (${Math.ceil((this._position / this._websites.length) * 100)}%).`);
     return website;
   }
 

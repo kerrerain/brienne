@@ -14,7 +14,7 @@ function create(url) {
     reachable: false,
     terms: {
       A11Y_1: _createTerm('accessibilité'),
-      A11Y_4: _createTerm('%'),
+      A11Y_4: _createTerm('déclaration de conformité|déclaration d\'accessibilité', '%'),
       A11Y_5: _createTerm('W3C'),
       A11Y_6: _createTerm('WCAG'),
       RGAA_1: _createTerm('déclaration de conformité|déclaration d\'accessibilité'),
